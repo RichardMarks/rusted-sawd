@@ -1,0 +1,9 @@
+[package]
+name = "rusted-sawd"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rusted-console = { git = "https://github.com/RichardMarks/rusted-console.git", version = "0.1.0" }
