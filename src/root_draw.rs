@@ -6,6 +6,7 @@ use notan::{
 
 use crate::{
     constants::LOGICAL_SIZE,
+    main_menu_draw::main_menu_draw,
     state::{GameState, State},
 };
 
@@ -21,7 +22,7 @@ pub fn root_draw(app: &mut App, gfx: &mut Graphics, state: &mut State) {
 
     match state.game_state {
         GameState::MainMenuState => {
-            draw.clear(state.colors[0]);
+            main_menu_draw(app, gfx, state, &mut draw);
         }
         GameState::PlayState => {
             draw.clear(state.colors[4]);

@@ -1,16 +1,14 @@
 use notan::prelude::{App, KeyCode};
 
-use crate::state::{GameState, State};
+use crate::{
+    main_menu_update::main_menu_update,
+    state::{GameState, State},
+};
 
 pub fn root_update(app: &mut App, state: &mut State) {
     match state.game_state {
         GameState::MainMenuState => {
-            if app.keyboard.was_pressed(KeyCode::Escape) {
-                app.exit()
-            }
-            if app.keyboard.was_pressed(KeyCode::Space) {
-                state.game_state = GameState::PlayState;
-            }
+            main_menu_update(app, state);
         }
         GameState::PlayState => {
             if app.keyboard.was_pressed(KeyCode::Escape) {

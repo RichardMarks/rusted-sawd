@@ -1,5 +1,7 @@
 mod config;
 mod constants;
+mod main_menu_draw;
+mod main_menu_update;
 mod root_draw;
 mod root_setup;
 mod root_update;
