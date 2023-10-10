@@ -5,6 +5,7 @@ mod main_menu_update;
 mod root_draw;
 mod root_setup;
 mod root_update;
+mod rusted_renderer;
 mod state;
 
 use notan::draw::DrawConfig;

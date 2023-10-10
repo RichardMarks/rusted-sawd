@@ -7,6 +7,7 @@ pub fn main_menu_update(app: &mut App, state: &mut State) {
         app.exit()
     }
     if app.keyboard.was_pressed(KeyCode::Space) {
+        state.msg.hide(&mut state.con);
         state.game_state = GameState::PlayState;
     }
 }

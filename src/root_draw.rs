@@ -3,10 +3,12 @@ use notan::{
     math::{vec2, vec3, Mat4, Vec2},
     prelude::{App, Graphics},
 };
+use rusted_console::Coord;
 
 use crate::{
     constants::LOGICAL_SIZE,
     main_menu_draw::main_menu_draw,
+    rusted_renderer::calculate_render_scale,
     state::{GameState, State},
 };
 
@@ -19,6 +21,9 @@ pub fn root_draw(app: &mut App, gfx: &mut Graphics, state: &mut State) {
     let mut draw = gfx.create_draw();
 
     draw.set_projection(Some(projection));
+
+    let Coord(columns, rows) = state.con.console.size;
+    calculate_render_scale(state, columns as f32, rows as f32);
 
     match state.game_state {
         GameState::MainMenuState => {

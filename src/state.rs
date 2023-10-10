@@ -2,7 +2,7 @@ use notan::{
     draw::Font,
     prelude::{AppState, Color},
 };
-use rusted_console::Rusted;
+use rusted_console::{Rusted, RustedMessage};
 
 pub enum GameState {
     MainMenuState,
@@ -20,4 +20,9 @@ pub struct State {
     pub font: Font,
     /// the console backend - not to be confused with a notan backend.
     pub con: Rusted,
+    /// used by the console rendering systems
+    pub cell_width: f32,
+    pub cell_height: f32,
+    /// general purpose message
+    pub msg: RustedMessage,
 }

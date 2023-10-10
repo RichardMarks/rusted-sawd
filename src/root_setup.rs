@@ -3,7 +3,7 @@ use notan::{
     prelude::{App, Color, Graphics},
 };
 
-use rusted_console::Rusted;
+use rusted_console::{Rusted, RustedMessage};
 
 use crate::{
     constants::{WINDOW_HEIGHT, WINDOW_WIDTH},
@@ -40,13 +40,23 @@ pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> State {
         Color::from_hex(0xFFFFFFFF),
     ];
 
-    let con: Rusted = Rusted::new();
+    let mut con: Rusted = Rusted::new();
+
+    con.screen80x50();
+    con.outchars(1, 1, "Hello, World!");
+    con.draw_button((3, 3, 10, 5), "Button", 1 | 2 | 4 | 8, 2);
+
+    let mut msg = RustedMessage::new(true);
+    msg.show(&mut con, vec!["This is a test", "of the RustedMessage"]);
 
     State {
         game_state: GameState::MainMenuState,
         colors,
         font,
         con,
+        cell_width: 0.0,
+        cell_height: 0.0,
+        msg,
     }
 }
 
