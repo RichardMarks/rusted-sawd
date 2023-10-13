@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 use notan::{
     draw::CreateFont,
     prelude::{App, Color, Graphics},
@@ -6,58 +8,51 @@ use notan::{
 use rusted_console::{Rusted, RustedMessage};
 
 use crate::{
-    constants::{WINDOW_HEIGHT, WINDOW_WIDTH},
-    state::{GameState, State},
+    constants::{COLOR_PALETTE, WINDOW_HEIGHT, WINDOW_WIDTH},
+    state::{GameAppState, GameState},
+    states::register_states,
 };
 
-pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> State {
+pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> GameAppState {
     center_application_window(app);
 
     let font = gfx
         .create_font(include_bytes!("assets/fonts/Px437_IBM_CGA.ttf"))
         .unwrap();
 
-    let colors: Vec<Color> = vec![
-        // black
-        Color::from_hex(0x000000FF),
-        // dark colors
-        Color::from_hex(0x7F0000FF),
-        Color::from_hex(0x007F00FF),
-        Color::from_hex(0x7F7F00FF),
-        Color::from_hex(0x00007FFF),
-        Color::from_hex(0x7F007FFF),
-        Color::from_hex(0x007F7FFF),
-        Color::from_hex(0x7F7F7FFF),
-        // light colors
-        Color::from_hex(0xF1F1F1FF),
-        Color::from_hex(0xF10000FF),
-        Color::from_hex(0x00F100FF),
-        Color::from_hex(0xF1F100FF),
-        Color::from_hex(0x0000F1FF),
-        Color::from_hex(0xF100F1FF),
-        Color::from_hex(0x00F1F1FF),
-        // white
-        Color::from_hex(0xFFFFFFFF),
-    ];
+    let colors: Vec<Color> = COLOR_PALETTE
+        .iter()
+        .map(|color_hex| Color::from_hex(*color_hex))
+        .collect();
 
-    let mut con: Rusted = Rusted::new();
+    let con: Rusted = Rusted::new();
 
-    con.screen80x50();
-    con.outchars(1, 1, "Hello, World!");
-    con.draw_button((3, 3, 10, 5), "Button", 1 | 2 | 4 | 8, 2);
+    // con.screen80x50();
+    // con.outchars(1, 1, "Hello, World!");
+    // con.draw_button((3, 3, 10, 5), "Button", 1 | 2 | 4 | 8, 2);
 
-    let mut msg = RustedMessage::new(true);
-    msg.show(&mut con, vec!["This is a test", "of the RustedMessage"]);
+    let msg = RustedMessage::new(true);
+    // msg.show(&mut con, vec!["This is a test", "of the RustedMessage"]);
 
-    State {
-        game_state: GameState::MainMenuState,
+    let mut app_state: GameAppState = GameAppState {
+        scenes: HashMap::new(),
+        state: GameState {
+            next_scene: None,
+            current_scene: None,
+            con,
+        },
         colors,
         font,
-        con,
         cell_width: 0.0,
         cell_height: 0.0,
         msg,
-    }
+    };
+
+    // *STATE_MANAGER.lock().unwrap() = Some(Box::new(StateManager::default()));
+
+    register_states(app, &mut app_state);
+
+    app_state
 }
 
 fn center_application_window(app: &mut App) {

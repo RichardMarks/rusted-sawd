@@ -1,12 +1,12 @@
 mod config;
 mod constants;
-mod main_menu_draw;
-mod main_menu_update;
+
 mod root_draw;
 mod root_setup;
 mod root_update;
 mod rusted_renderer;
 mod state;
+mod states;
 
 use notan::draw::DrawConfig;
 

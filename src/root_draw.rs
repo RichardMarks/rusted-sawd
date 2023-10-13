@@ -7,12 +7,11 @@ use rusted_console::Coord;
 
 use crate::{
     constants::LOGICAL_SIZE,
-    main_menu_draw::main_menu_draw,
-    rusted_renderer::calculate_render_scale,
-    state::{GameState, State},
+    rusted_renderer::{calculate_render_scale, rusted_renderer},
+    state::GameAppState,
 };
 
-pub fn root_draw(app: &mut App, gfx: &mut Graphics, state: &mut State) {
+pub fn root_draw(app: &mut App, gfx: &mut Graphics, app_state: &mut GameAppState) {
     let (w, h) = gfx.size();
     let dpi = app.window().dpi() as f32;
     let window_size: Vec2 = vec2((w as f32) * dpi, (h as f32) * dpi);
@@ -22,17 +21,27 @@ pub fn root_draw(app: &mut App, gfx: &mut Graphics, state: &mut State) {
 
     draw.set_projection(Some(projection));
 
-    let Coord(columns, rows) = state.con.console.size;
-    calculate_render_scale(state, columns as f32, rows as f32);
+    let Coord(columns, rows) = app_state.state.con.console.size;
+    calculate_render_scale(app_state, columns as f32, rows as f32);
 
-    match state.game_state {
-        GameState::MainMenuState => {
-            main_menu_draw(app, gfx, state, &mut draw);
-        }
-        GameState::PlayState => {
-            draw.clear(state.colors[4]);
-        }
-    }
+    let con = &app_state.state.con;
+    let rp = (con,);
+
+    rusted_renderer(
+        // notan params
+        (&mut draw, app, gfx, app_state),
+        // rusted params
+        rp,
+    );
+
+    // match state.game_state {
+    //     GameState::MainMenuState => {
+    //         main_menu_draw(app, gfx, state, &mut draw);
+    //     }
+    //     GameState::PlayState => {
+    //         draw.clear(state.colors[4]);
+    //     }
+    // }
 
     gfx.render(&draw);
 }

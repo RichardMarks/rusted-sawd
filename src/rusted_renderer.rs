@@ -4,9 +4,9 @@ use notan::{
 };
 use rusted_console::{Coord, Rusted};
 
-use crate::{constants::LOGICAL_SIZE, state::State};
+use crate::{constants::LOGICAL_SIZE, state::GameAppState};
 
-pub fn calculate_render_scale(state: &mut State, columns: f32, rows: f32) {
+pub fn calculate_render_scale(state: &mut GameAppState, columns: f32, rows: f32) {
     let (cell_width, cell_height) = (LOGICAL_SIZE.x / columns, LOGICAL_SIZE.y / rows);
     state.cell_width = cell_width;
     state.cell_height = cell_height;
@@ -14,7 +14,7 @@ pub fn calculate_render_scale(state: &mut State, columns: f32, rows: f32) {
 
 pub fn rusted_renderer(
     // notan params
-    np: (&mut Draw, &mut App, &mut Graphics, &State),
+    np: (&mut Draw, &mut App, &mut Graphics, &GameAppState),
     // rusted params
     rp: (&Rusted,),
 ) {
@@ -42,7 +42,7 @@ pub fn rusted_renderer(
 
 fn draw_background(
     // notan params
-    np: (&mut Draw, &mut App, &mut Graphics, &State),
+    np: (&mut Draw, &mut App, &mut Graphics, &GameAppState),
     coord: Coord,
     color_index: usize,
 ) {
@@ -61,7 +61,7 @@ fn draw_background(
 
 fn draw_character(
     // notan params
-    np: (&mut Draw, &mut App, &mut Graphics, &State),
+    np: (&mut Draw, &mut App, &mut Graphics, &GameAppState),
     coord: Coord,
     character: char,
     color_index: usize,
