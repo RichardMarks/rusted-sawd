@@ -43,11 +43,11 @@ impl GameScene for TitleScene {
         let pic = vec![
             "CCPS Solutions Presents",
             "  ",
-            " SSSS  AAA  W   W DDDD",
+            " SSSS  AAA  W   W DDDD ",
             "S     A   A W   W D   D",
             " SSS  AAAAA W W W D   D",
             "    S A   A W W W D   D",
-            "SSSS  A   A WW WW DDDD",
+            "SSSS  A   A WW WW DDDD ",
             "  ",
             "  ",
             "Simple ASCII Walk-around Demo",
