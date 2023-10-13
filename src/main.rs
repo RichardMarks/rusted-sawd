@@ -1,12 +1,14 @@
 mod config;
 mod constants;
 
+mod obj;
 mod root_draw;
 mod root_setup;
 mod root_update;
 mod rusted_renderer;
 mod state;
 mod states;
+mod maps;
 
 use notan::draw::DrawConfig;
 

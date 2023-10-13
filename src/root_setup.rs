@@ -9,6 +9,7 @@ use rusted_console::{Rusted, RustedMessage};
 
 use crate::{
     constants::{COLOR_PALETTE, WINDOW_HEIGHT, WINDOW_WIDTH},
+    obj::Obj,
     state::{GameAppState, GameState},
     states::register_states,
 };
@@ -40,6 +41,8 @@ pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> GameAppState {
             next_scene: None,
             current_scene: None,
             con,
+            current_map: None,
+            player: Obj::default(),
         },
         colors,
         font,

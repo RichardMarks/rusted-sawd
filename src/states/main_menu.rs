@@ -1,9 +1,9 @@
 use notan::prelude::{App, KeyCode};
 
-use crate::state::{
+use crate::{state::{
     change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
     GameState,
-};
+}, states::IN_GAME, maps::{DUSHAL_WEST_MAP_ID, MAPS}};
 
 use super::TITLE;
 
@@ -162,10 +162,19 @@ impl MainMenuScene {
         }
     }
 
-    fn select(&mut self, app: &mut App, _state: &mut GameState) {
+    fn select(&mut self, app: &mut App, state: &mut GameState) {
         match self.active_menu_option {
             MainMenuOption::NewGame => {
                 println!("New Game!");
+
+                state.player.x = 8;
+                state.player.y = 9;
+                state.player.image = '\u{263A}';
+                state.player.name = "Hero".to_string();
+
+                state.current_map = Some(MAPS[DUSHAL_WEST_MAP_ID].chars().collect());
+
+                change_game_scene(IN_GAME, state);
             }
             MainMenuOption::LoadGame => {
                 println!("Load Game!");

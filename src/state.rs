@@ -6,6 +6,8 @@ use notan::{
 };
 use rusted_console::{Rusted, RustedMessage};
 
+use crate::obj::Obj;
+
 #[derive(AppState)]
 pub struct GameAppState {
     pub scenes: HashMap<String, GameSceneObject>,
@@ -28,6 +30,10 @@ pub struct GameState {
     pub next_scene: Option<String>,
     /// the console backend - not to be confused with a notan backend.
     pub con: Rusted,
+
+    pub current_map: Option<Vec<char>>,
+
+    pub player: Obj,
 }
 
 pub trait GameScene: 'static {
