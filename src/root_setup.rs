@@ -10,7 +10,7 @@ use rusted_console::{Rusted, RustedMessage};
 use crate::{
     constants::{COLOR_PALETTE, WINDOW_HEIGHT, WINDOW_WIDTH},
     obj::Obj,
-    state::{GameAppState, GameState},
+    state::{Choice, GameAppState, GameState},
     states::register_states,
 };
 
@@ -43,6 +43,10 @@ pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> GameAppState {
             con,
             current_map: None,
             player: Obj::default(),
+
+            message_box: None,
+            choice_box: None,
+            last_selected_choice: Choice::Invalid,
         },
         colors,
         font,

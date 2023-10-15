@@ -1,6 +1,8 @@
 mod config;
 mod constants;
 
+mod map_events;
+mod maps;
 mod obj;
 mod root_draw;
 mod root_setup;
@@ -8,7 +10,6 @@ mod root_update;
 mod rusted_renderer;
 mod state;
 mod states;
-mod maps;
 
 use notan::draw::DrawConfig;
 

@@ -1,9 +1,13 @@
 use notan::prelude::{App, KeyCode};
 
-use crate::{state::{
-    change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
-    GameState,
-}, states::IN_GAME, maps::{DUSHAL_WEST_MAP_ID, MAPS}};
+use crate::{
+    maps::{DUSHAL_WEST_MAP_ID, MAPS},
+    state::{
+        change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
+        GameState,
+    },
+    states::{IN_GAME, NAME_CHARACTER},
+};
 
 use super::TITLE;
 
@@ -174,7 +178,7 @@ impl MainMenuScene {
 
                 state.current_map = Some(MAPS[DUSHAL_WEST_MAP_ID].chars().collect());
 
-                change_game_scene(IN_GAME, state);
+                change_game_scene(NAME_CHARACTER, state);
             }
             MainMenuOption::LoadGame => {
                 println!("Load Game!");

@@ -4,7 +4,7 @@ use notan::{
     draw::Font,
     prelude::{App, AppState, Color},
 };
-use rusted_console::{Rusted, RustedMessage};
+use rusted_console::{Rusted, RustedChoice, RustedMessage};
 
 use crate::obj::Obj;
 
@@ -25,11 +25,21 @@ pub struct GameAppState {
     pub msg: RustedMessage,
 }
 
+#[derive(Debug)]
+pub enum Choice {
+    Invalid,
+    Valid(u8),
+}
+
 pub struct GameState {
     pub current_scene: Option<String>,
     pub next_scene: Option<String>,
     /// the console backend - not to be confused with a notan backend.
     pub con: Rusted,
+
+    pub message_box: Option<RustedMessage>,
+    pub choice_box: Option<RustedChoice>,
+    pub last_selected_choice: Choice,
 
     pub current_map: Option<Vec<char>>,
 

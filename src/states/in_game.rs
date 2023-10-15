@@ -4,11 +4,12 @@ use notan::prelude::{App, KeyCode};
 use rusted_console::Rusted;
 
 use crate::{
+    maps::{is_cell_empty, MAP_H, MAP_W, WORLD_MAP},
     obj::Obj,
     state::{
         change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
         GameState,
-    }, maps::{WORLD_MAP, is_cell_empty, MAP_H, MAP_W},
+    },
 };
 
 use super::MAIN_MENU;
@@ -38,7 +39,7 @@ impl Default for InGameScene {
             tileset: build_tileset(),
             fallback_tile: (2, 1 | 2 | 4 | 8, '?'),
 
-            t: 0.0
+            t: 0.0,
         }
     }
 }
@@ -68,7 +69,7 @@ impl GameScene for InGameScene {
                 return;
             }
             self.t = 0.0;
-            
+
             if let Some(current_map) = state.current_map.clone() {
                 let dx: i32 = player_motion_vector.0 as i32;
                 let dy: i32 = player_motion_vector.1 as i32;
@@ -114,7 +115,7 @@ impl InGameScene {
         } else if left {
             motion = (-1.0, 0.0);
         } else if right {
-            motion = (1.0 , 0.0);
+            motion = (1.0, 0.0);
         }
 
         motion

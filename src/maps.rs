@@ -2,7 +2,6 @@
 
 use std::collections::HashSet;
 
-
 pub static WORLD_MAP: &str = "###############################    ^          ^       ^    ##  ^   ^    ^    T  ^  H ^   ##WWWW          T          ^  ## WWWW  ^      .........     ##  T WWWW T    .       ..    ##     WWWWW    .        ..   ##     T WW......         ..  ##.....   W.WWWWW    T     ...##    ......WWWWWWW WWWWWWWW  ## T       .  WWWWWWWW   WWWWW##   H T   .  T  WWWW     WWWW##         .   T   WWWWWWWWWWW###############################";
 
 pub static KIRAR_SOUTH_MAP: &str = "#########################.#####                ^   T  #.#  ##    ^  ^      T        ..   ##   ^      H ^      ^ ...    ##     H    ... ^      . ^    ##    ^.  ^  T...     ...H    ##     ....   ^ . ^....   ^   ##    ^   .     ....          ##      H...H    ^...H     T  ## ^    ^ . ^ .....   ^  ^    ##   T   ......  ^            ##  ^    .   ^       T    ^   ##      #.#    ^       ^^     #########.#####################";
@@ -15,7 +14,13 @@ pub static DUSHAL_EAST_MAP: &str = "###############################             
 
 pub const MAP_COUNT: usize = 5;
 
-pub static MAPS: [&str; MAP_COUNT] = [WORLD_MAP, KIRAR_NORTH_MAP, KIRAR_SOUTH_MAP, DUSHAL_WEST_MAP, DUSHAL_EAST_MAP];
+pub static MAPS: [&str; MAP_COUNT] = [
+    WORLD_MAP,
+    KIRAR_NORTH_MAP,
+    KIRAR_SOUTH_MAP,
+    DUSHAL_WEST_MAP,
+    DUSHAL_EAST_MAP,
+];
 
 pub const WORLD_MAP_ID: usize = 0;
 pub const KIRAR_NORTH_MAP_ID: usize = 1;
