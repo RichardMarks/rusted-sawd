@@ -61,6 +61,10 @@ impl Obj {
         }
         !self.drunk
     }
+
+    pub fn print(&self) {
+        println!("{:?}", self);
+    }
 }
 
 #[derive(Debug)]

@@ -1,6 +1,7 @@
 mod config;
 mod constants;
 
+mod character;
 mod map_events;
 mod maps;
 mod obj;
