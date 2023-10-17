@@ -1,10 +1,13 @@
 use notan::prelude::{App, KeyCode};
 use rusted_console::CharInfo;
 
-use crate::{state::{
-    change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
-    GameState,
-}, character::{roll_stats, CharacterStats, CharacterClass}};
+use crate::{
+    character::{roll_stats, CharacterClass, CharacterStats},
+    state::{
+        change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
+        GameState,
+    },
+};
 
 pub static CREATE_CHARACTER: &str = "create_character";
 
@@ -32,7 +35,6 @@ struct CreateCharacterScene {
     // x,y,w,h of the selected chr - for copying to roll stats display
     selected_chr: (i32, i32, i32, i32),
     selected_chr_buffer: Vec<CharInfo>,
-    
 }
 
 impl Default for CreateCharacterScene {
@@ -123,9 +125,18 @@ impl GameScene for CreateCharacterScene {
                     self.selected_option = 0;
 
                     // copy the chr
-                    self.selected_chr_buffer = vec![CharInfo::default(); (self.selected_chr.2 * self.selected_chr.3) as usize];
-                    state.con.copy(self.selected_chr.0, self.selected_chr.1, self.selected_chr.2, self.selected_chr.3, &mut self.selected_chr_buffer);
-                    
+                    self.selected_chr_buffer = vec![
+                        CharInfo::default();
+                        (self.selected_chr.2 * self.selected_chr.3)
+                            as usize
+                    ];
+                    state.con.copy(
+                        self.selected_chr.0,
+                        self.selected_chr.1,
+                        self.selected_chr.2,
+                        self.selected_chr.3,
+                        &mut self.selected_chr_buffer,
+                    );
 
                     self.stage = CreationStage::RollStats;
                     self.rolled_stats = Some(roll_stats(character_class));
@@ -156,7 +167,9 @@ impl GameScene for CreateCharacterScene {
                     || app.keyboard.was_pressed(KeyCode::Return)
                 {
                     if self.selected_option == 0 {
-                        self.rolled_stats = Some(roll_stats(self.rolled_stats.clone().unwrap().character_class));
+                        self.rolled_stats = Some(roll_stats(
+                            self.rolled_stats.clone().unwrap().character_class,
+                        ));
                         self.redraw(state);
                     } else {
                         self.stage = CreationStage::Confirm;
@@ -221,7 +234,7 @@ impl GameScene for CreateCharacterScene {
 
                 state.player.max_mp = stats.mp;
                 state.player.cur_mp = state.player.max_mp;
-                
+
                 state.player.attack = stats.attack;
                 state.player.defense = stats.defense;
                 state.player.strength = stats.strength;
@@ -269,7 +282,6 @@ static MAGE: [u32; 36] = [
 ];
 
 impl CreateCharacterScene {
-
     fn redraw(&mut self, state: &mut GameState) {
         match self.stage {
             CreationStage::ChooseClass => self.redraw_choose_class(state),
@@ -287,34 +299,64 @@ impl CreateCharacterScene {
         let con = &mut state.con;
 
         con.set_bgcolor(0);
-        con.set_fgcolor(1|2|4);
+        con.set_fgcolor(1 | 2 | 4);
         con.cls();
         // con.draw_window_fill(60, 0, 20, 50);
         con.draw_panel(0, 0, 19, 50);
 
-        con.paste(2, 2, self.selected_chr.2, self.selected_chr.3, &mut self.selected_chr_buffer);
+        con.paste(
+            2,
+            2,
+            self.selected_chr.2,
+            self.selected_chr.3,
+            &mut self.selected_chr_buffer,
+        );
 
-        con.draw_panel_ex(20, 5, 40, 40, (0,4), (4,0));
-        
+        con.draw_panel_ex(20, 5, 40, 40, (0, 4), (4, 0));
+
         con.set_bgcolor(4);
-        con.set_fgcolor(1|2|4|8);
+        con.set_fgcolor(1 | 2 | 4 | 8);
 
-        con.outchars((80-15)/2, 7, "Character Stats");
+        con.outchars((80 - 15) / 2, 7, "Character Stats");
 
         let mut stat_y = 13;
         let stat_x = 23;
 
-        con.outchars(stat_x, stat_y, format!("HP:       {:>25}", format!("{:4}", stats.hp)).as_str());
+        con.outchars(
+            stat_x,
+            stat_y,
+            format!("HP:       {:>25}", format!("{:4}", stats.hp)).as_str(),
+        );
         stat_y += 2;
-        con.outchars(stat_x, stat_y, format!("MP:       {:>25}", format!("{:4}", stats.mp)).as_str());
+        con.outchars(
+            stat_x,
+            stat_y,
+            format!("MP:       {:>25}", format!("{:4}", stats.mp)).as_str(),
+        );
         stat_y += 4;
-        con.outchars(stat_x, stat_y, format!("ATTACK:   {:>25}", format!("{:3}", stats.attack)).as_str());
+        con.outchars(
+            stat_x,
+            stat_y,
+            format!("ATTACK:   {:>25}", format!("{:3}", stats.attack)).as_str(),
+        );
         stat_y += 3;
-        con.outchars(stat_x, stat_y, format!("DEFENSE:  {:>25}", format!("{:3}", stats.defense)).as_str());
+        con.outchars(
+            stat_x,
+            stat_y,
+            format!("DEFENSE:  {:>25}", format!("{:3}", stats.defense)).as_str(),
+        );
         stat_y += 3;
-        con.outchars(stat_x, stat_y, format!("STRENGTH: {:>25}", format!("{:3}", stats.strength)).as_str());
+        con.outchars(
+            stat_x,
+            stat_y,
+            format!("STRENGTH: {:>25}", format!("{:3}", stats.strength)).as_str(),
+        );
         stat_y += 3;
-        con.outchars(stat_x, stat_y, format!("MAGIC:    {:>25}", format!("{:3}", stats.magic)).as_str());
+        con.outchars(
+            stat_x,
+            stat_y,
+            format!("MAGIC:    {:>25}", format!("{:3}", stats.magic)).as_str(),
+        );
 
         let btn_w = 14;
         let btn_h = 5;
@@ -325,11 +367,31 @@ impl CreateCharacterScene {
         let display_y = 45 - (btn_h + btn_spacing);
 
         if self.selected_option == 0 {
-            con.draw_button((display_x, display_y, btn_w, btn_h),    "Roll Again", 1|2|4|8, 4);
-            con.draw_button((display_x + btn_w + btn_spacing, display_y, btn_w, btn_h), " Continue ", 1|2|4, 4);
+            con.draw_button(
+                (display_x, display_y, btn_w, btn_h),
+                "Roll Again",
+                1 | 2 | 4 | 8,
+                4,
+            );
+            con.draw_button(
+                (display_x + btn_w + btn_spacing, display_y, btn_w, btn_h),
+                " Continue ",
+                1 | 2 | 4,
+                4,
+            );
         } else {
-            con.draw_button((display_x, display_y, btn_w, btn_h),    "Roll Again", 1|2|4, 4);
-            con.draw_button((display_x + btn_w + btn_spacing, display_y, btn_w, btn_h), " Continue ", 1|2|4|8, 4);
+            con.draw_button(
+                (display_x, display_y, btn_w, btn_h),
+                "Roll Again",
+                1 | 2 | 4,
+                4,
+            );
+            con.draw_button(
+                (display_x + btn_w + btn_spacing, display_y, btn_w, btn_h),
+                " Continue ",
+                1 | 2 | 4 | 8,
+                4,
+            );
         }
     }
 
@@ -345,11 +407,31 @@ impl CreateCharacterScene {
         let display_y = 45 - (btn_h + btn_spacing);
 
         if self.selected_option == 0 {
-            con.draw_button((display_x, display_y, btn_w, btn_h),                       " Restart  ", 1|2|4|8, 4);
-            con.draw_button((display_x + btn_w + btn_spacing, display_y, btn_w, btn_h), " Continue ", 1|2|4, 4);
+            con.draw_button(
+                (display_x, display_y, btn_w, btn_h),
+                " Restart  ",
+                1 | 2 | 4 | 8,
+                4,
+            );
+            con.draw_button(
+                (display_x + btn_w + btn_spacing, display_y, btn_w, btn_h),
+                " Continue ",
+                1 | 2 | 4,
+                4,
+            );
         } else {
-            con.draw_button((display_x, display_y, btn_w, btn_h),                       " Restart  ", 1|2|4, 4);
-            con.draw_button((display_x + btn_w + btn_spacing, display_y, btn_w, btn_h), " Continue ", 1|2|4|8, 4);
+            con.draw_button(
+                (display_x, display_y, btn_w, btn_h),
+                " Restart  ",
+                1 | 2 | 4,
+                4,
+            );
+            con.draw_button(
+                (display_x + btn_w + btn_spacing, display_y, btn_w, btn_h),
+                " Continue ",
+                1 | 2 | 4 | 8,
+                4,
+            );
         }
     }
 

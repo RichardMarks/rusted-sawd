@@ -40,7 +40,7 @@ fn roll_warrior_stats() -> CharacterStats {
     let defense = get_random_i32(3, 6);
     let strength = get_random_i32(2, 4);
     let magic = 0;
-    
+
     CharacterStats {
         character_class: CharacterClass::Warrior,
         hp,
@@ -52,7 +52,6 @@ fn roll_warrior_stats() -> CharacterStats {
     }
 }
 
-
 fn roll_dwarf_stats() -> CharacterStats {
     let hp = get_random_i32(100, 175);
     let mp = 0;
@@ -60,7 +59,7 @@ fn roll_dwarf_stats() -> CharacterStats {
     let defense = get_random_i32(5, 8);
     let strength = get_random_i32(2, 4);
     let magic = 0;
-    
+
     CharacterStats {
         character_class: CharacterClass::Dwarf,
         hp,
@@ -79,7 +78,7 @@ fn roll_thief_stats() -> CharacterStats {
     let defense = get_random_i32(3, 6);
     let strength = get_random_i32(2, 4);
     let magic = 0;
-    
+
     CharacterStats {
         character_class: CharacterClass::Thief,
         hp,
@@ -97,8 +96,8 @@ fn roll_mage_stats() -> CharacterStats {
     let attack = get_random_i32(2, 5);
     let defense = get_random_i32(3, 6);
     let strength = get_random_i32(1, 3);
-    let magic = get_random_i32(4,9);
-    
+    let magic = get_random_i32(4, 9);
+
     CharacterStats {
         character_class: CharacterClass::Mage,
         hp,
