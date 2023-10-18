@@ -4,7 +4,8 @@ use notan::prelude::{App, KeyCode};
 use rusted_console::Rusted;
 
 use crate::{
-    maps::{is_cell_empty, MAP_H, MAP_W, WORLD_MAP},
+    map_events::{decode_warp_event, MapEvent},
+    maps::{is_cell_empty, MAPS, MAP_H, MAP_W, WORLD_MAP},
     obj::Obj,
     state::{
         change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
@@ -81,6 +82,82 @@ impl GameScene for InGameScene {
                     state.player.step();
                     if state.player.sober_up() {
                         // sober!
+                    }
+
+                    for mut warp in state.mem.warps_for_map_id(state.current_map_id) {
+                        if !warp.enabled {
+                            continue;
+                        }
+
+                        let warp_x = warp.origin_x as i32;
+                        let warp_y = warp.origin_y as i32;
+
+                        if warp_x != state.player.x || warp_y != state.player.y {
+                            continue;
+                        }
+
+                        println!(
+                            "WARPING FROM MAP {} @ {}, {}  TO MAP {} @ {}, {}",
+                            warp.origin_map_id,
+                            warp.origin_x,
+                            warp.origin_y,
+                            warp.target_map_id,
+                            warp.target_x,
+                            warp.target_y
+                        );
+
+                        // change map
+                        state.current_map_id = warp.target_map_id as usize;
+                        state.current_map =
+                            Some(MAPS[state.current_map_id].clone().chars().collect());
+
+                        // move player
+                        state.player.x = warp.target_x as i32;
+                        state.player.y = warp.target_y as i32;
+
+                        // update display
+                        self.draw_game_display(state);
+
+                        if warp.once {
+                            warp.enabled = false;
+                        }
+
+                        // no overlapping events
+                        break;
+                    }
+
+                    for mut script in state.mem.scripts_for_map_id(state.current_map_id) {
+                        if !script.enabled {
+                            continue;
+                        }
+
+                        let script_x = script.origin_x as i32;
+                        let script_y = script.origin_y as i32;
+
+                        if script_x != state.player.x || script_y != state.player.y {
+                            continue;
+                        }
+
+                        println!(
+                            "RUNNING SCRIPT EVENT on MAP {} @ {}, {} WITH EVENT ID {:04X}",
+                            script.origin_map_id,
+                            script.origin_x,
+                            script.origin_y,
+                            script.event_index
+                        );
+
+                        let Some(script_event) = state.mem.get_script(script.event_index) else {
+                            break;
+                        };
+
+                        script_event(app, state);
+
+                        if script.once {
+                            script.enabled = false;
+                        }
+
+                        // no overlapping events
+                        break;
                     }
                 }
             }

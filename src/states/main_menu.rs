@@ -176,7 +176,8 @@ impl MainMenuScene {
                 state.player.image = '\u{263A}';
                 state.player.name = "Hero".to_string();
 
-                state.current_map = Some(MAPS[DUSHAL_WEST_MAP_ID].chars().collect());
+                state.current_map_id = DUSHAL_WEST_MAP_ID;
+                state.current_map = Some(MAPS[DUSHAL_WEST_MAP_ID].clone().chars().collect());
 
                 change_game_scene(NAME_CHARACTER, state);
             }

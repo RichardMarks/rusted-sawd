@@ -9,6 +9,8 @@ use crate::{
     },
 };
 
+use super::{IN_GAME, MAIN_MENU};
+
 pub static CREATE_CHARACTER: &str = "create_character";
 
 pub fn register(app: &mut App, app_state: &mut GameAppState) {
@@ -73,7 +75,7 @@ impl GameScene for CreateCharacterScene {
 
     fn update(&mut self, app: &mut App, state: &mut GameState) {
         if app.keyboard.was_pressed(KeyCode::Escape) {
-            app.exit();
+            change_game_scene(MAIN_MENU, state);
         }
 
         match self.stage {
@@ -242,7 +244,7 @@ impl GameScene for CreateCharacterScene {
 
                 state.player.print();
 
-                app.exit();
+                change_game_scene(IN_GAME, state);
             }
         }
     }

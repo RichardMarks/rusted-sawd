@@ -22,5 +22,5 @@ pub fn register_states(app: &mut App, app_state: &mut GameAppState) {
     create_character::register(app, app_state);
 
     // initial state
-    change_game_scene(CREATE_CHARACTER, &mut app_state.state);
+    change_game_scene(TITLE, &mut app_state.state);
 }

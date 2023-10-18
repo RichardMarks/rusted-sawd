@@ -6,7 +6,7 @@ use notan::{
 };
 use rusted_console::{Rusted, RustedChoice, RustedMessage};
 
-use crate::obj::Obj;
+use crate::{map_events::MapEventManager, obj::Obj};
 
 #[derive(AppState)]
 pub struct GameAppState {
@@ -42,6 +42,8 @@ pub struct GameState {
     pub last_selected_choice: Choice,
 
     pub current_map: Option<Vec<char>>,
+    pub current_map_id: usize,
+    pub mem: MapEventManager,
 
     pub player: Obj,
 }

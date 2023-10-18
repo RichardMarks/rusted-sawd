@@ -2,8 +2,10 @@ use notan::prelude::{App, KeyCode};
 use rusted_console::{Rusted, RustedMessage, Window};
 
 use crate::state::{
-    initialize_game_scene, register_game_scene, GameAppState, GameScene, GameState,
+    initialize_game_scene, register_game_scene, GameAppState, GameScene, GameState, change_game_scene,
 };
+
+use super::CREATE_CHARACTER;
 
 pub static NAME_CHARACTER: &str = "name_character";
 
@@ -88,8 +90,8 @@ impl GameScene for NameCharacterScene {
                     println!("entered name: {:?}", entry.name);
                     state.player.name = entry.name.to_owned();
                     self.entry = None;
-                    app.exit();
-                    // change_game_scene(CREATE_CHARACTER, state);
+                    // app.exit();
+                    change_game_scene(CREATE_CHARACTER, state);
                 }
             }
         }

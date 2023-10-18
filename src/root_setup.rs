@@ -9,7 +9,9 @@ use rusted_console::{Rusted, RustedMessage};
 
 use crate::{
     constants::{COLOR_PALETTE, WINDOW_HEIGHT, WINDOW_WIDTH},
+    map_events::{register_game_events, MapEventManager},
     obj::Obj,
+    script_events::register_scripts,
     state::{Choice, GameAppState, GameState},
     states::register_states,
 };
@@ -42,6 +44,8 @@ pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> GameAppState {
             current_scene: None,
             con,
             current_map: None,
+            current_map_id: 0,
+            mem: MapEventManager::new(),
             player: Obj::default(),
 
             message_box: None,
@@ -56,6 +60,9 @@ pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> GameAppState {
     };
 
     // *STATE_MANAGER.lock().unwrap() = Some(Box::new(StateManager::default()));
+
+    register_game_events(&mut app_state);
+    register_scripts(&mut app_state);
 
     register_states(app, &mut app_state);
 
