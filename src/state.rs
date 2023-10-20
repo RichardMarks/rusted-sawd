@@ -6,10 +6,15 @@ use notan::{
 };
 use rusted_console::{Rusted, RustedChoice, RustedMessage};
 
-use crate::{map_events::MapEventManager, obj::Obj};
+use crate::{
+    map_events::{MapEventManager, ScriptFunction},
+    obj::Obj,
+    script::GameScriptObject,
+};
 
 #[derive(AppState)]
 pub struct GameAppState {
+    pub script: Vec<GameScriptObject>,
     pub scenes: HashMap<String, GameSceneObject>,
     pub state: GameState,
 
@@ -46,6 +51,11 @@ pub struct GameState {
     pub mem: MapEventManager,
 
     pub player: Obj,
+
+    pub script_running: bool,
+    pub next_script: Option<GameScriptObject>,
+
+    pub dirty: bool,
 }
 
 pub trait GameScene: 'static {

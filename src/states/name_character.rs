@@ -2,7 +2,8 @@ use notan::prelude::{App, KeyCode};
 use rusted_console::{Rusted, RustedMessage, Window};
 
 use crate::state::{
-    initialize_game_scene, register_game_scene, GameAppState, GameScene, GameState, change_game_scene,
+    change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
+    GameState,
 };
 
 use super::CREATE_CHARACTER;

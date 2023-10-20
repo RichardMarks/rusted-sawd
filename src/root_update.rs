@@ -1,6 +1,9 @@
 use notan::prelude::{App, KeyCode};
 
-use crate::state::{update_game_scene, Choice, GameAppState, GameScene};
+use crate::{
+    script::GameScript,
+    state::{update_game_scene, Choice, GameAppState, GameScene},
+};
 
 pub fn root_update(app: &mut App, app_state: &mut GameAppState) {
     if app.keyboard.was_pressed(KeyCode::P) {
@@ -39,6 +42,25 @@ pub fn root_update(app: &mut App, app_state: &mut GameAppState) {
         return;
     }
 
+    // if there is a script being processed, do not process the scene
+    if app_state.state.script_running {
+        if let Some(script) = app_state.script.get_mut(0) {
+            script.update(app, &mut app_state.state);
+            if let Some(current_scene_id) = &app_state.state.current_scene {
+                if let Some(current_scene) = app_state.scenes.get_mut(current_scene_id) {
+                    current_scene.update(app, &mut app_state.state);
+                }
+            }
+        }
+        return;
+    } else {
+        if app_state.script.len() > 0 {
+            app_state.script.pop();
+        }
+    }
+
+    update_game_script(app_state);
+
     if let Some(current_scene_id) = &app_state.state.current_scene {
         if let Some(current_scene) = app_state.scenes.get_mut(current_scene_id) {
             current_scene.update(app, &mut app_state.state);
@@ -46,4 +68,15 @@ pub fn root_update(app: &mut App, app_state: &mut GameAppState) {
     }
 
     update_game_scene(app, app_state);
+}
+
+fn update_game_script(app_state: &mut GameAppState) {
+    if app_state.state.next_script.is_none() {
+        return;
+    }
+
+    app_state
+        .script
+        .push(app_state.state.next_script.take().unwrap());
+    app_state.state.script_running = true;
 }

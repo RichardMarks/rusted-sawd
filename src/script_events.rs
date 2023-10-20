@@ -1,8 +1,17 @@
+mod event_0000_dushal_player_home;
+
 use notan::prelude::App;
 
-use crate::state::{GameAppState, GameState};
+use crate::{
+    script::run_game_script,
+    state::{GameAppState, GameState},
+};
 
-pub fn event_dushal_player_home(app: &mut App, state: &mut GameState) {}
+use self::event_0000_dushal_player_home::EventDushalPlayerHome;
+
+pub fn event_dushal_player_home(app: &mut App, state: &mut GameState) {
+    run_game_script(app, state, EventDushalPlayerHome::default());
+}
 
 pub fn event_dushal_magic_shop(app: &mut App, state: &mut GameState) {}
 

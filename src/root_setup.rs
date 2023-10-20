@@ -39,6 +39,7 @@ pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> GameAppState {
 
     let mut app_state: GameAppState = GameAppState {
         scenes: HashMap::new(),
+        script: vec![],
         state: GameState {
             next_scene: None,
             current_scene: None,
@@ -51,6 +52,10 @@ pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> GameAppState {
             message_box: None,
             choice_box: None,
             last_selected_choice: Choice::Invalid,
+
+            script_running: false,
+            next_script: None,
+            dirty: true,
         },
         colors,
         font,

@@ -9,6 +9,7 @@ mod root_draw;
 mod root_setup;
 mod root_update;
 mod rusted_renderer;
+mod script;
 mod script_events;
 mod state;
 mod states;

@@ -4,8 +4,7 @@ use notan::prelude::{App, KeyCode};
 use rusted_console::Rusted;
 
 use crate::{
-    map_events::{decode_warp_event, MapEvent},
-    maps::{is_cell_empty, MAPS, MAP_H, MAP_W, WORLD_MAP},
+    maps::{is_cell_empty, MAPS, MAP_H, MAP_W},
     obj::Obj,
     state::{
         change_game_scene, initialize_game_scene, register_game_scene, GameAppState, GameScene,
@@ -55,12 +54,26 @@ impl GameScene for InGameScene {
 
     fn enter(&mut self, _app: &mut App, state: &mut GameState) {
         println!("InGameScene enter");
+        let con = &mut state.con;
+        con.set_bgcolor(0);
+        con.set_fgcolor(1 | 2 | 4 | 8);
+        con.cls();
         self.draw_game_display(state);
 
         self.t = 0.0;
     }
 
     fn update(&mut self, app: &mut App, state: &mut GameState) {
+        if state.script_running {
+            self.draw_game_display(state);
+            return;
+        }
+
+        if state.dirty {
+            self.draw_game_display(state);
+            state.dirty = false;
+        }
+
         let player_motion_vector = self.get_player_motion_vector(app);
 
         if player_motion_vector.0 != 0.0 || player_motion_vector.1 != 0.0 {
@@ -201,12 +214,18 @@ impl InGameScene {
     fn draw_game_display(&mut self, state: &mut GameState) {
         self.draw_map(state);
         let con = &mut state.con;
+        let bgc = con.get_bgcolor();
+        let fgc = con.get_fgcolor();
         con.set_bgcolor(0);
         con.set_fgcolor(1 | 2 | 4 | 8);
         self.draw_obj(&state.player, con);
+        con.set_bgcolor(bgc);
+        con.set_fgcolor(fgc);
     }
 
     fn draw_map(&mut self, state: &mut GameState) {
+        let bgc = state.con.get_bgcolor();
+        let fgc = state.con.get_fgcolor();
         if let Some(current_map) = state.current_map.clone() {
             for y in 0..MAP_H {
                 for x in 0..MAP_W {
@@ -216,6 +235,8 @@ impl InGameScene {
                 }
             }
         }
+        state.con.set_bgcolor(bgc);
+        state.con.set_fgcolor(fgc);
     }
 
     fn draw_tile(&mut self, tile_id: char, x: i32, y: i32, state: &mut GameState) {
