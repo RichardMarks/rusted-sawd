@@ -34,15 +34,6 @@ pub fn root_draw(app: &mut App, gfx: &mut Graphics, app_state: &mut GameAppState
         rp,
     );
 
-    // match state.game_state {
-    //     GameState::MainMenuState => {
-    //         main_menu_draw(app, gfx, state, &mut draw);
-    //     }
-    //     GameState::PlayState => {
-    //         draw.clear(state.colors[4]);
-    //     }
-    // }
-
     gfx.render(&draw);
 }
 
