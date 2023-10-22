@@ -55,7 +55,10 @@ pub fn root_setup(app: &mut App, gfx: &mut Graphics) -> GameAppState {
 
             script_running: false,
             next_script: None,
+            script_commands: vec![],
             dirty: true,
+
+            last_shop_result: None,
         },
         colors,
         font,

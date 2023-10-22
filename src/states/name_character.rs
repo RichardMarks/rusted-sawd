@@ -144,7 +144,7 @@ impl NameEntry {
         let ax = self.window_rect.0 + 1;
         let ay = self.window_rect.1 + 2;
         self.buttons = vec![
-            ("DELETE ", (ax + 0, ay + 12, 11, 3)),
+            ("DELETE ", (ax, ay + 12, 11, 3)),
             ("DEFAULT", (ax + 12, ay + 12, 11, 3)),
             ("ACCEPT ", (ax + 24, ay + 12, 11, 3)),
         ];

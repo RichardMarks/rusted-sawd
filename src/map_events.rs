@@ -61,9 +61,12 @@ impl MapEventManager {
         let Some(warp) = decode_warp(encoded) else {
             return;
         };
-        if !self.warp_events_by_map.contains_key(&warp.origin_map_id) {
-            self.warp_events_by_map.insert(warp.origin_map_id, vec![]);
-        }
+        self.warp_events_by_map
+            .entry(warp.origin_map_id)
+            .or_insert_with(Vec::new);
+        // if !self.warp_events_by_map.contains_key(&warp.origin_map_id) {
+        //     self.warp_events_by_map.insert(warp.origin_map_id, vec![]);
+        // }
         let warps = self
             .warp_events_by_map
             .get_mut(&warp.origin_map_id)
@@ -75,13 +78,16 @@ impl MapEventManager {
         let Some(script) = decode_script(encoded) else {
             return;
         };
-        if !self
-            .script_events_by_map
-            .contains_key(&script.origin_map_id)
-        {
-            self.script_events_by_map
-                .insert(script.origin_map_id, vec![]);
-        }
+        self.script_events_by_map
+            .entry(script.origin_map_id)
+            .or_insert_with(Vec::new);
+        // if !self
+        //     .script_events_by_map
+        //     .contains_key(&script.origin_map_id)
+        // {
+        //     self.script_events_by_map
+        //         .insert(script.origin_map_id, vec![]);
+        // }
         let scripts = self
             .script_events_by_map
             .get_mut(&script.origin_map_id)
@@ -174,12 +180,12 @@ fn decode_warp(encoded: u32) -> Option<WarpModel> {
         _ => unreachable!("should not be possible"),
     };
 
-    let origin_map_id = shr24 as u32 as u8;
+    let origin_map_id = shr24 as u8;
     let origin_index = shr15;
     let origin_x = (origin_index % 30u32) as u8;
     let origin_y = (origin_index / 30u32) as u8;
 
-    let target_map_id = shr09 as u32 as u8;
+    let target_map_id = shr09 as u8;
     let target_index = shr00;
     let target_x = (target_index % 30u32) as u8;
     let target_y = (target_index / 30u32) as u8;
@@ -218,7 +224,7 @@ fn decode_script(encoded: u32) -> Option<ScriptModel> {
         _ => unreachable!("should not be possible"),
     };
 
-    let origin_map_id = shr24 as u32 as u8;
+    let origin_map_id = shr24 as u8;
     let origin_index = shr15;
     let origin_x = (origin_index % 30u32) as u8;
     let origin_y = (origin_index / 30u32) as u8;

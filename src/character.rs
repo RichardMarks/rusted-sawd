@@ -1,14 +1,15 @@
 use notan::prelude::{Random, Rng};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default, PartialEq, Eq, PartialOrd, Ord)]
 pub enum CharacterClass {
+    #[default]
     Warrior,
     Dwarf,
     Thief,
     Mage,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct CharacterStats {
     pub character_class: CharacterClass,
     pub hp: i32,
@@ -30,7 +31,7 @@ pub fn roll_stats(character_class: CharacterClass) -> CharacterStats {
 
 fn get_random_i32(lower_bound: i32, upper_bound: i32) -> i32 {
     let mut rng = Random::default();
-    rng.gen_range(lower_bound..=upper_bound) as i32
+    rng.gen_range(lower_bound..=upper_bound)
 }
 
 fn roll_warrior_stats() -> CharacterStats {

@@ -1,7 +1,7 @@
 use notan::prelude::{App, KeyCode};
 
 use crate::{
-    script::GameScript,
+    script::{GameScript, GameScriptCommand},
     state::{update_game_scene, Choice, GameAppState, GameScene},
 };
 
@@ -42,32 +42,51 @@ pub fn root_update(app: &mut App, app_state: &mut GameAppState) {
         return;
     }
 
-    // if there is a script being processed, do not process the scene
+    // update the script on the top of the script stack
+    app_state.state.script_running = !app_state.script.is_empty();
     if app_state.state.script_running {
-        if let Some(script) = app_state.script.get_mut(0) {
+        let current_script_index = app_state.script.len() - 1;
+        if let Some(script) = app_state.script.get_mut(current_script_index) {
             script.update(app, &mut app_state.state);
-            if let Some(current_scene_id) = &app_state.state.current_scene {
-                if let Some(current_scene) = app_state.scenes.get_mut(current_scene_id) {
-                    current_scene.update(app, &mut app_state.state);
+        }
+    }
+
+    // process the next command in the script command stack
+    if !app_state.state.script_commands.is_empty() {
+        let next_script_command = app_state.state.script_commands.pop();
+        if let Some(script_command) = next_script_command {
+            match script_command {
+                GameScriptCommand::UpdateParentScene => {
+                    update_current_scene(app, app_state);
+                }
+                GameScriptCommand::PopScript => {
+                    app_state.script.pop();
+                }
+                GameScriptCommand::PopAllScripts => {
+                    app_state.script.clear();
                 }
             }
-        }
-        return;
-    } else {
-        if app_state.script.len() > 0 {
-            app_state.script.pop();
         }
     }
 
     update_game_script(app_state);
 
+    // if scripts are still in control, do not process the current scene
+    app_state.state.script_running = !app_state.script.is_empty();
+    if app_state.state.script_running {
+        return;
+    }
+
+    update_current_scene(app, app_state);
+    update_game_scene(app, app_state);
+}
+
+fn update_current_scene(app: &mut App, app_state: &mut GameAppState) {
     if let Some(current_scene_id) = &app_state.state.current_scene {
         if let Some(current_scene) = app_state.scenes.get_mut(current_scene_id) {
             current_scene.update(app, &mut app_state.state);
         }
     }
-
-    update_game_scene(app, app_state);
 }
 
 fn update_game_script(app_state: &mut GameAppState) {
@@ -78,5 +97,4 @@ fn update_game_script(app_state: &mut GameAppState) {
     app_state
         .script
         .push(app_state.state.next_script.take().unwrap());
-    app_state.state.script_running = true;
 }

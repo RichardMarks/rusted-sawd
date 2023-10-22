@@ -1,3 +1,5 @@
+use crate::character::CharacterStats;
+
 #[derive(Default, Debug)]
 pub struct Obj {
     pub x: i32,
@@ -6,7 +8,7 @@ pub struct Obj {
     pub image: char,
     pub name: String,
 
-    pub chr_class: i32,
+    pub base_stats: CharacterStats,
 
     pub max_ap: i32,
     pub cur_ap: i32,

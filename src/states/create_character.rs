@@ -511,7 +511,7 @@ impl CreateCharacterScene {
                     button_width,
                     button_height,
                 ),
-                &button_label,
+                button_label,
                 btn_fgc,
                 btn_bgc,
             );

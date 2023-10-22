@@ -31,7 +31,7 @@ pub const DUSHAL_EAST_MAP_ID: usize = 4;
 pub const MAP_W: i32 = 30;
 pub const MAP_H: i32 = 14;
 
-pub fn is_cell_empty(x: i32, y: i32, map: &Vec<char>) -> bool {
+pub fn is_cell_empty(x: i32, y: i32, map: &[char]) -> bool {
     let x: i32 = x.clamp(0, MAP_W - 1);
     let y: i32 = y.clamp(0, MAP_H - 1);
     let tile: char = map[(x + (y * MAP_W)) as usize];

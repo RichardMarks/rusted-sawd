@@ -1,6 +1,6 @@
 use notan::prelude::App;
 
-use crate::state::{GameAppState, GameState};
+use crate::state::GameState;
 
 pub trait GameScript: 'static {
     fn init(&mut self, app: &mut App, state: &mut GameState);
@@ -32,7 +32,13 @@ pub fn run_game_script(app: &mut App, state: &mut GameState, script: impl GameSc
 
 pub fn exit_game_script(state: &mut GameState) {
     println!("exit_game_script");
-    state.script_running = false;
+    state.script_commands.push(GameScriptCommand::PopScript);
+}
+
+pub enum GameScriptCommand {
+    UpdateParentScene,
+    PopScript,
+    PopAllScripts,
 }
 
 // pub type ScriptFunction = fn(&mut App, &mut GameState) -> ();

@@ -7,9 +7,10 @@ use notan::{
 use rusted_console::{Rusted, RustedChoice, RustedMessage};
 
 use crate::{
-    map_events::{MapEventManager, ScriptFunction},
+    map_events::MapEventManager,
     obj::Obj,
-    script::GameScriptObject,
+    script::{GameScriptCommand, GameScriptObject},
+    shop::ShopResult,
 };
 
 #[derive(AppState)]
@@ -54,6 +55,9 @@ pub struct GameState {
 
     pub script_running: bool,
     pub next_script: Option<GameScriptObject>,
+    pub script_commands: Vec<GameScriptCommand>,
+
+    pub last_shop_result: Option<ShopResult>,
 
     pub dirty: bool,
 }

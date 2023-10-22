@@ -2,6 +2,7 @@ mod config;
 mod constants;
 
 mod character;
+mod item;
 mod map_events;
 mod maps;
 mod obj;
@@ -11,6 +12,8 @@ mod root_update;
 mod rusted_renderer;
 mod script;
 mod script_events;
+mod shop;
+mod shop_buy_form;
 mod state;
 mod states;
 
