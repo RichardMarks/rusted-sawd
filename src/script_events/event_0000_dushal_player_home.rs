@@ -71,19 +71,19 @@ impl GameScript for EventDushalPlayerHome {
 }
 
 impl EventDushalPlayerHome {
-    fn intro(&mut self, app: &mut App, state: &mut GameState) {
+    fn intro(&mut self, _app: &mut App, state: &mut GameState) {
         let mut msg = RustedMessage::new(true);
         msg.show(&mut state.con, vec!["You walk to your room..."]);
         state.message_box = Some(msg);
     }
 
-    fn ask_to_rest(&mut self, app: &mut App, state: &mut GameState) {
+    fn ask_to_rest(&mut self, _app: &mut App, state: &mut GameState) {
         let mut chooser = RustedChoice::new();
         chooser.show_yes_no(&mut state.con, "Take a Rest?");
         state.choice_box = Some(chooser);
     }
 
-    fn rest(&mut self, app: &mut App, state: &mut GameState) {
+    fn rest(&mut self, _app: &mut App, state: &mut GameState) {
         state.player.cur_hp = state.player.max_hp;
         state.player.cur_mp = state.player.max_mp;
 
