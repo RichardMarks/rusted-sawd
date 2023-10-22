@@ -34,15 +34,6 @@ use notan::prelude::App;
 
 use crate::state::{GameAppState, GameState};
 
-pub type WarpMapEventEncoding = u32;
-pub type ScriptMapEventEncoding = u32;
-
-#[derive(Debug)]
-pub enum MapEvent {
-    Warp(WarpMapEventEncoding),
-    Script(ScriptMapEventEncoding),
-}
-
 pub type ScriptFunction = fn(&mut App, &mut GameState) -> ();
 
 #[derive(Debug, Default)]
@@ -161,40 +152,6 @@ pub struct ScriptModel {
     pub origin_x: u8,
     pub origin_y: u8,
     pub event_index: u16,
-}
-
-pub fn is_warp_event(map_event: &MapEvent) -> bool {
-    match map_event {
-        MapEvent::Warp(_) => true,
-        MapEvent::Script(_) => false,
-    }
-}
-
-pub fn is_script_event(map_event: &MapEvent) -> bool {
-    match map_event {
-        MapEvent::Warp(_) => false,
-        MapEvent::Script(_) => true,
-    }
-}
-
-pub fn decode_warp_event(map_event: &MapEvent) -> Option<WarpModel> {
-    match is_warp_event(map_event) {
-        false => None,
-        true => match map_event {
-            MapEvent::Script(_) => None,
-            MapEvent::Warp(encoded) => decode_warp(*encoded),
-        },
-    }
-}
-
-pub fn decode_script_event(map_event: &MapEvent) -> Option<ScriptModel> {
-    match is_script_event(map_event) {
-        false => None,
-        true => match map_event {
-            MapEvent::Warp(_) => None,
-            MapEvent::Script(encoded) => decode_script(*encoded),
-        },
-    }
 }
 
 fn decode_warp(encoded: u32) -> Option<WarpModel> {

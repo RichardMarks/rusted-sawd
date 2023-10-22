@@ -2,10 +2,6 @@
 
 use std::collections::HashSet;
 
-use crate::map_events::{
-    decode_script_event, decode_warp_event, MapEvent, MapEventManager, ScriptModel, WarpModel,
-};
-
 pub static WORLD_MAP: &str = "###############################    ^          ^       ^    ##  ^   ^    ^    T  ^  H ^   ##WWWW          T          ^  ## WWWW  ^      .........     ##  T WWWW T    .       ..    ##     WWWWW    .        ..   ##     T WW......         ..  ##.....   W.WWWWW    T     ...##    ......WWWWWWW WWWWWWWW  ## T       .  WWWWWWWW   WWWWW##   H T   .  T  WWWW     WWWW##         .   T   WWWWWWWWWWW###############################";
 
 pub static KIRAR_SOUTH_MAP: &str = "#########################.#####                ^   T  #.#  ##    ^  ^      T        ..   ##   ^      H ^      ^ ...    ##     H    ... ^      . ^    ##    ^.  ^  T...     ...H    ##     ....   ^ . ^....   ^   ##    ^   .     ....          ##      H...H    ^...H     T  ## ^    ^ . ^ .....   ^  ^    ##   T   ......  ^            ##  ^    .   ^       T    ^   ##      #.#    ^       ^^     #########.#####################";
